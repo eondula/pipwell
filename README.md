@@ -3,7 +3,7 @@
 pipwell is a platform designed to address the challenges of misdiagnoses in the healthcare industry. It aims to reduce diagnostic errors, assist overworked healthcare providers, minimize delayed diagnoses, and overcome communication barriers.
 
 ## Features
-- **Symptom Checker with GPT**: Provides a conversational interface for users to describe their symptoms and get feedback.
+- **Conversational Symptom Analysis**: We use a language model, specifically chatGPT, to interpret patient input conversationally. This system processes the patient's descriptions of symptoms and translates them into a concise, structured summary, optimized to a maximum of 10 words, which is then relayed to healthcare professionals, ensuring efficient and standardized communication.
 - **Blockchain**: Ensures the decentralization of medical records, enhancing security and trust.
 - **IoT Heart Rate Monitor**: Offers real-time heart rate monitoring for patients.
 - **Interactive Dashboard**: Visualizes important health metrics and records.
