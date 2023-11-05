@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./utils/db');
-const authRoutes = require('./login/auth');
 const { askChatGPT } = require('./ai/chatgpt');
 const { checkSymptoms } = require('./ai/symptomChecker'); // Assuming symptomChecker uses askChatGPT
 const authRoutes = require('./login/auth', './hospitalLogin/auth','./InsuranceCom/auth');
