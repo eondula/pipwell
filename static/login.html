@@ -72,6 +72,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
     <title>Login</title>
     <style>
         body {
@@ -83,6 +85,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            font-family: 'Rubik', sans-serif;
         }
 
         .container {
@@ -107,14 +110,13 @@
         input[type="password"] {
             width: 100%;
             padding: 10px;
-            margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
 
         input[type="submit"] {
             width: 100%;
-            background: #D977B7;
+            background: #727dff;
             color: #fff;
             border: none;
             border-radius: 3px;
@@ -125,12 +127,10 @@
 </head>
 <body>
 <div class="container">
-    <h2>Login</h2>
+    <h4 class="text-center" style="color: #666666">Login</h4>
     <form action="/login" method="POST">
         <!-- user input-->
-        Username:<br>
         <input type="text" name="username" placeholder="Username" required><br><br>
-        Password:<br>
         <input type="password" name="password" placeholder="Password" required><br><br>
         <!-- submit button -->
         <input type="submit" value="Login">
