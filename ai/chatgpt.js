@@ -1,7 +1,7 @@
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-    apiKey: "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"
+    apiKey: ""
 });
 
 async function askChatGPT(question) {
