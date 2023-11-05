@@ -1,6 +1,6 @@
 # pipwell
 
-pip is a solution designed to address the challenges of misdiagnoses in the healthcare industry. This platform  aims to reduce diagnostic errors, assist overworked healthcare providers, minimize delayed diagnoses, and overcome communication barriers.
+pipwell is a platform designed to address the challenges of misdiagnoses in the healthcare industry. It aims to reduce diagnostic errors, assist overworked healthcare providers, minimize delayed diagnoses, and overcome communication barriers.
 
 ## Features
 - **Symptom Checker with GPT**: Provides a conversational interface for users to describe their symptoms and get feedback.
