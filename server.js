@@ -23,9 +23,20 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/static/login.html');
 });
 
-app.get('/secret', (req, res) => {
-    res.sendFile(__dirname + '/static/secret-page.html');
+app.get('/hospital-login', (req, res) => {
+    res.sendFile(__dirname + '/static/hospitalLogin.html');
 });
+app.get('/insurance-com', (req, res) => {
+    res.sendFile(__dirname + '/static/InsuranceCom.html');
+});
+app.get('/patient-record', (req, res) => {
+    res.sendFile(__dirname + '/static/patient-record.html');
+});
+
+//app.get('/secret', (req, res) => { res.sendFile(__dirname + '/static/secret-page.html');}); 
+
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
