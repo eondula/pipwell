@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+
+
+    <!--    <link rel="stylesheet" href="path_to_your_css.css">-->
+    <style>
+        body {
+            background-color: #F2F2F2;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between; /* Ensures maximum space between the logo and the menu */
+            align-items: center; /* Centers items vertically */
+            background-color: #a58832;
+            padding: 10px 20px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            flex-shrink: 0; /* Prevents the title from shrinking */
+        }
+
+        .navbar .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .menu-item {
+            margin-left: 20px;
+            color: #333333;
+            text-decoration: none;
+        }
+
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .table-header {
+            background-color: #d1b190
+        ;
+        }
+
+        #heartRateChart {
+            width: 45%;
+            margin: 20px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+        }
+        #symptomsTable {
+            width: 100%;
+            border-collapse: collapse; /* Ensures that borders aren't doubled */
+            font-size: 14px; /* Reduce the font size */
+            margin-top: 20px; /* Adds some space above the table */
+        }
+
+        #symptomsTable th, #symptomsTable td {
+            padding: 10px; /* Adds space inside each cell */
+            border: 1px solid #ccc; /* Adds borders around each cell */
+            text-align: left;
+        }
+
+        .table-header th {
+            background-color: #f2f2f2; /* Light gray background for the header */
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<!-- Navbar -->
+<div class="navbar">
+    <h4 style="color: #fbecc3">Pipwell</h4>
+    <div class="menu" style="color: #ffffff; font-size: 12px; font-weight: lighter">
+        <a href="#" class="menu-item">Patients</a>
+        <a href="#" class="menu-item">Sign Out</a>
+    </div>
+</div>
+
+<h4 class="text-center" style="margin-top: 16px">Patient Name</h4>
+
+<div class="container">
+    <!-- Real-time Heart Rate Monitor -->
+    <canvas id="heartRateChart" width="300" height="150"></canvas>
+
+    <!-- Patient Dashboard -->
+    <table id="symptomsTable">
+        <thead class="table-header">
+        <tr>
+            <th>Date</th>
+            <th>Symptom Checker</th>
+        </tr>
+        </thead>
+        <tbody id="symptomsTableBody">
+        <!-- Symptom rows will be appended here -->
+        </tbody>
+    </table>
+
+<!--    &lt;!&ndash; Blockchain Visualization &ndash;&gt;-->
+<!--    <div id="blockchainVisualization">-->
+<!--        <button onclick="fetchBlockchain()">Refresh Blockchain Data</button>-->
+<!--        <div id="blockchainData">-->
+<!--            &lt;!&ndash; All blocks will be displayed here &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+<!-- Bootstrap JS and Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+    const ctx = document.getElementById('heartRateChart').getContext('2d');
+
+    const data = {
+        labels: [],  // Initially empty
+        datasets: [{
+            label: 'Heart Rate (BPM)',
+            data: [],  // Initially empty
+            borderColor: '#c4c8f8',
+            borderWidth: 2,
+            fill: false
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                }
+            }
+        }
+    };
+
+    const heartRateChart = new Chart(ctx, config);
+
+    // Simulate real-time data updates
+    let x = 0;  // Time variable
+    setInterval(() => {
+        // Add a new data point
+        data.labels.push(x);
+        data.datasets[0].data.push(60 + 10 * Math.sin(x/10));  // Simulated heart rate data
+
+        // Remove the first data point if there are too many points (e.g., more than 50)
+        if(data.labels.length > 50) {
+            data.labels.shift();
+            data.datasets[0].data.shift();
+        }
+
+        heartRateChart.update();
+        x += 1;
+    }, 1000);
+</script>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        fetch('/getLoggedSymptoms')
+            .then(response => response.json())
+            .then(symptoms => {
+                console.log("Symptoms received:", symptoms);
+                // Populate the dashboard table with the symptom data
+                const table = document.getElementById('symptomsTableBody');
+
+                symptoms.forEach(symptom => {
+                    const row = `<tr><td>${new Date(symptom.date).toLocaleString()}</td><td>${symptom.response}</td></tr>`;
+                    table.innerHTML += row;
+                });
+            })
+            .catch(error => {
+
+                console.error('Error fetching symptoms:', error);
+            });
+    });
+
+    // Fetch and display entire blockchain
+    function fetchBlockchain() {
+        fetch('/fetchBlockchain')
+            .then(response => response.json())
+            .then(blockchain => {
+                let blocksHTML = '';
+                blockchain.chain.forEach(block => {
+                    blocksHTML += `
+                <div class="block">
+                    <p><strong>Data:</strong> ${block.data}</p>
+                    <p><strong>Timestamp:</strong> ${new Date(block.timestamp).toLocaleString()}</p>
+                    <p><strong>Hash:</strong> ${block.hash}</p>
+                </div>
+            `;
+                });
+                document.getElementById('blockchainData').innerHTML = blocksHTML;
+            })
+            .catch(error => console.error('Error fetching blockchain:', error));
+    }
+
+</script>
+</body>
+
+</html>

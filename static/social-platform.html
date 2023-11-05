@@ -4,44 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Platform</title>
-    <link rel="stylesheet" href="path_to_your_css.css">
-    <script src="path_to_your_js.js" defer></script>
+    <!-- Bootstrap CSS and Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F2F2F2;
+            font-family: 'Rubik', sans-serif;
+        }
+        .navbar {
+            height: 100vh;
+            background-color: #F2F2F2;
+            border-right: 0.7px solid dimgrey;
+            align-items: flex-start; /* This will align items to the top */
+            padding-top: 10px; /* Adding some padding to the top for better look */
+
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*justify-content: center;*/
+        }
+        /*#communityArea{*/
+        /*    width: 50%;*/
+        /*    background-color: #F2F2F2;*/
+        /*}*/
+        /*#chatBox {*/
+        /*    width: 50%;*/
+        /*    background-color: #F2F2F2;*/
+        /*    !*border: 1px solid #59211C;*!*/
+        /*    border-radius: 5px;*/
+        /*    margin-top: 20%;*/
+        /*    padding: 20px;*/
+        /*}*/
+        /* Ensuring both divs take up equal width */
+        #communityArea, #chatBox {
+            width: 100%;
+            max-width: 800px; /* or whatever maximum width you want */
+            margin: 0 auto; /* centering */
+        }
+
+        .communityMember {
+            margin-left: 15px;
+            margin-right: 15px;
+            font-size: 8px;
+        }
+        .circle.online {
+            background-color: #8ABFA1;
+        }
+        .circle.offline {
+            background-color: dimgrey;
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .ask-icon {
+            background-color: #727dff;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 40px;        /* Adjust width as needed */
+            height: 40px;       /* Adjust height as needed */
+            padding: 0;         /* Remove padding to ensure consistent size */
+            display: flex;      /* Center the icon */
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-color {
+            color: #727dff;
+        }
+
+        .icon-big {
+            font-size: 24px;
+        }
+        .navbar-brand {
+            color: #333; /* Or any color you prefer */
+            font-size: 24px; /* Adjust to your preference */
+        }
+
+    </style>
 </head>
 <body>
 
-<div id="chatBox">
-    <div id="chatMessages"></div>
-    <input type="text" id="symptomInput" placeholder="Type your symptoms separated by commas..."></input>
-    <button onclick="sendSymptom()">Ask</button>
-</div>
+<div class="d-flex">
+    <!-- Left Sidebar/Navbar -->
+    <nav class="navbar navbar-light">
+        <div class="text-center">
+            <h2 class="navbar-brand" style="color: #666666">Pipwell</h2>
+            <a class="nav-link" href="#" "><i class="fas fa-user icon-big icon-color"></i> </a>
+            <p style="font-size: 10px">profile</p>
+        </div>
 
-<!-- Community Members Area -->
-<div id="communityArea">
-    <h3>Your Community</h3>
-    <div id="communityMembers" class="row">
-        <!-- Example of a community member's circle -->
-        <div class="communityMember online col">
-            <div class="circle"></div>
-            <p>Jane</p>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Notification Icon -->
+        <div class="d-flex justify-content-end w-100" style="margin-right: 20%; padding-top: 20px">
+            <button id="notificationButton" onclick="checkNotifications()" class="btn btn-link">
+                <i class="fas fa-bell icon-big icon-color"></i>
+            </button>
         </div>
-        <div class="communityMember online col">
-            <div class="circle"></div>
-            <p>John</p>
+        <!-- Community Members Area -->
+        <div id="communityArea">
+            <p class="text-center" style="font-weight: bold">your community</p>
+            <div id="communityMembers" class="row justify-content-center">
+                <!-- Example of a community member's circle -->
+                <div class="communityMember online col-auto">
+                    <div class="circle"></div>
+                    <p class="text-center">Jane</p>
+                </div>
+                <div class="communityMember online col-auto">
+                    <div class="circle"></div>
+                    <p class="text-center">John</p>
+                </div>
+                <div class="communityMember offline col-auto">
+                    <div class="circle"></div>
+                    <p class="text-center">Alice</p>
+                </div>
+                <div class="communityMember offline col-auto">
+                    <div class="circle"></div>
+                    <p class="text-center">Bob</p>
+                </div>
+
+            </div>
         </div>
-        <div class="communityMember offline col">
-            <div class="circle"></div>
-            <p>Alice</p>
+
+        <div class="container mt-5"> <!-- Container to center on page and add some margin from top -->
+                <!-- Chat Box -->
+                <div id="chatBox" style="padding: 10%">
+                    <div id="chatMessages"></div>
+                    <div class="input-group">
+                        <input type="text" id="symptomInput" class="form-control" placeholder="Type your symptoms separated by commas...">
+                        <div class="input-group-append">
+                            <button onclick="sendSymptom()" class="btn ask-icon"><i class="fas fa-arrow-up"></i></button>
+                            <button class="btn btn-link"><i class="fas fa-microphone icon-big icon-color"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="communityMember offline col">
-            <div class="circle"></div>
-            <p>Bob</p>
-        </div>
-        <!-- You can populate more members dynamically here -->
+
     </div>
 </div>
 
-<button id="notificationButton" onclick="checkNotifications()">Check Notifications</button>
-
+<!-- Bootstrap JS and Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     function sendSymptom() {
         const symptomInput = document.getElementById('symptomInput');
@@ -58,10 +176,10 @@
             .then(response => response.json())
             .then(data => {
                 chatMessages.innerHTML += `<p><strong>You:</strong> ${symptomInput.value}</p>`;
-                chatMessages.innerHTML += `<p><strong>Bot:</strong> ${data.feedback}</p>`;
+                // chatMessages.innerHTML += `<p><strong>Bot:</strong> ${data.feedback}</p>`;
                 // Here, you'd also handle community responses.
                 // For instance, if a friend responds, you might add:
-                // chatMessages.innerHTML += `<p><strong>Jane:</strong> Have you tried resting and drinking water?</p>`;
+                chatMessages.innerHTML += `<p><strong>Jane:</strong> Have you tried resting and drinking water?</p>`;
                 symptomInput.value = '';
             })
             .catch(error => console.error('Error:', error));
@@ -78,6 +196,26 @@
                 });
             })
             .catch(error => console.error('Error:', error));
+    }
+    // Add data to blockchain
+    function addToBlockchain() {
+        const data = document.getElementById('blockData').value;
+        fetch('/addRecord', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: data })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('latestBlock').innerHTML = `
+            <p><strong>Data:</strong> ${data.block.data}</p>
+            <p><strong>Timestamp:</strong> ${new Date(data.block.timestamp).toLocaleString()}</p>
+            <p><strong>Hash:</strong> ${data.block.hash}</p>
+        `;
+            })
+            .catch(error => console.error('Error adding to blockchain:', error));
     }
 </script>
 <style>
