@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
@@ -21,15 +20,6 @@ const HeartRateSimulator = require('./iot/heartRateSimulator');
 const heartRateSim = new HeartRateSimulator();
 heartRateSim.start();
 
-//const authRoute1 = require('./hospitalLogin/auth');
-//const authRoute2 = require('./InsuranceCom/auth');
-//const authRoute3 = require('./InsuranceCom/auth');
-
-
-
-// Connect Database
-// connectDB();
-
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,8 +36,6 @@ app.use(session({
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/index.html');
 });
-
-
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/static/login.html');
@@ -77,7 +65,6 @@ app.post('/login', async (req, res) => {
         res.redirect('social-platform.html');
     }
 });
-
 
 app.get('/hospitalLogin', (req, res) => {
     res.sendFile(__dirname + '/static/hospitalLogin.html');
@@ -157,18 +144,3 @@ connectDB().then(() => {
     console.error("Failed to connect to the database:", err);
     process.exit(1);
 });
-
-//app.get('/secret', (req, res) => { res.sendFile(__dirname + '/static/secret-page.html');});
-// Establish the connection:
-// connectDB().then(() => {
-//     // Start your express server here
-//     app.listen(PORT, () => {
-//         console.log(`Server started on port ${PORT}`);
-//     });
-// }).catch(err => {
-//     console.error("Failed to connect to the database:", err);
-//     process.exit(1);
-// });
-
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

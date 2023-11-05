@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const uri = 'mongodb+srv://leezmiriam:QqcEUlx6rfkfO2ht@cluster0.ymfwdwx.mongodb.net/?retryWrites=true&w=majority';  // Your MongoDB connection string
+const uri = '<mongodb-url';  // Your MongoDB connection string
 let _db;
 
 const connectDB = async () => {
