@@ -2,11 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Platform</title>
+    <link rel="stylesheet" href="path_to_your_css.css">
+    <script src="path_to_your_js.js" defer></script>
 </head>
 <body>
 
-    <h1>Social Platform Here</h1>
-    
+<div id="chatBox">
+    <div id="chatMessages"></div>
+    <input type="text" id="symptomInput" placeholder="Type your symptoms separated by commas..."></input>
+    <button onclick="sendSymptom()">Ask</button>
+</div>
+
+<!-- Community Members Area -->
+<div id="communityArea">
+    <h3>Your Community</h3>
+    <div id="communityMembers" class="row">
+        <!-- Example of a community member's circle -->
+        <div class="communityMember online col">
+            <div class="circle"></div>
+            <p>Jane</p>
+        </div>
+        <div class="communityMember online col">
+            <div class="circle"></div>
+            <p>John</p>
+        </div>
+        <div class="communityMember offline col">
+            <div class="circle"></div>
+            <p>Alice</p>
+        </div>
+        <div class="communityMember offline col">
+            <div class="circle"></div>
+            <p>Bob</p>
+        </div>
+        <!-- You can populate more members dynamically here -->
+    </div>
+</div>
+
+<button id="notificationButton" onclick="checkNotifications()">Check Notifications</button>
+
+<script>
+    function sendSymptom() {
+        const symptomInput = document.getElementById('symptomInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const symptomsArray = symptomInput.value.split(',').map(symptom => symptom.trim());
+
+        fetch('/checkSymptoms', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ symptoms: symptomsArray })
+        })
+            .then(response => response.json())
+            .then(data => {
+                chatMessages.innerHTML += `<p><strong>You:</strong> ${symptomInput.value}</p>`;
+                chatMessages.innerHTML += `<p><strong>Bot:</strong> ${data.feedback}</p>`;
+                // Here, you'd also handle community responses.
+                // For instance, if a friend responds, you might add:
+                // chatMessages.innerHTML += `<p><strong>Jane:</strong> Have you tried resting and drinking water?</p>`;
+                symptomInput.value = '';
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function checkNotifications() {
+        const chatMessages = document.getElementById('chatMessages');
+
+        fetch('/notifications')
+            .then(response => response.json())
+            .then(data => {
+                data.notifications.forEach(notification => {
+                    chatMessages.innerHTML += `<p><strong>Notification:</strong> ${notification}</p>`;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+<style>
+    .row {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: nowrap; /* Ensure that columns don't wrap to the next line */
+    }
+
+    .col {
+        flex: 1;
+        padding: 10px 5px; /* Reduced horizontal padding */
+    }
+
+    .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid green; /* Indicates online */
+        margin: 0 auto; /* Centers the circle in the column */
+    }
+
+    .communityMember {
+        text-align: center; /* Align the name below the circle */
+        margin: 0 5px;  /* Adjust spacing between each community member */
+    }
+
+    .communityMember.offline .circle {
+        border-color: gray; /* Indicates offline */
+    }
+
+</style>
+
 </body>
 </html>
