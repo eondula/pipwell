@@ -9,7 +9,13 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    //model that includes patient records
+    healthRecords: {
+        type: String,
+        required: true
+    },
+    //complete form for html
 });
 
 module.exports = mongoose.model('User', UserSchema);
